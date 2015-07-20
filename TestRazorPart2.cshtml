@@ -1,0 +1,44 @@
+﻿@{
+   var messageOne = "1. This is the first time you've requested the page.";
+
+   var messageTwo = "";
+
+   if(IsPost){
+     messageOne = "2. Now you have sumbitted the page.";
+
+     messageTwo = "You submitted the page at " + @DateTime.Now;
+   }
+
+   var showMessage = false;
+   if(Request.QueryString["show"].AsBool() == true){
+     showMessage = true;
+   }
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>Testing Razor Syntax - Part 2</title>
+    <meta charset="utf-8" />
+    <style>
+      body {font-family:Verdana; margin-left:50px; margin-top:50px;}
+      div {border: 1px solid black; width:50%; margin:1.2em;padding:1em;}
+    </style>
+  </head>
+
+  <body>
+    <h1>Testing Razor Syntax - Part 2</h1>
+    <form method="post">
+      <div>
+        @if(showMessage){
+          <p>@messageOne</p>
+        }
+        <p><input type="submit" value="Submit" /></p>
+        <p>@messageTwo</p>
+    </div>
+    </form>
+  </body>
+
+</html>
