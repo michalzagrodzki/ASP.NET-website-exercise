@@ -2,8 +2,21 @@
   
 // Adding link to database.
 var db = Database.Open("WebPageMovies3");
-var selectedData = db.Query("SELECT * FROM Movies");
-var grid = new WebGrid(source: selectedData, rowsPerPage: 4);
+var selectCommand = "SELECT * FROM Movies";
+var searchTerm = "";
+
+if(!Request.QueryString["searchGenre"].IsEmpty() ){
+  selectCommand = "SELECT * FROM Movies WHERE Genre = @0";
+  searchTerm = Request.QueryString["searchGenre"];
+}
+
+if(!Request.QueryString["searchTitle"].IsEmpty() ){
+  selectCommand = "SELECT * FROM Movies WHERE Title LIKE @0";
+  searchTerm = "%" + Request["searchTitle"] + "%";
+}
+
+var selectedData = db.Query(selectCommand, searchTerm);
+var grid = new WebGrid(source: selectedData, defaultSort: "Genre", rowsPerPage: 4);
     
 }
 
@@ -40,6 +53,22 @@ var grid = new WebGrid(source: selectedData, rowsPerPage: 4);
 
   <body>
     <h1>Movies</h1>
+    <form method="get">
+      <div>
+        <label for="searchGenre">Genre:</label>
+        <input type="text" name="searchGenre" value="@Request.QueryString["searchGenre"]" />
+        <input type="submit" value="Search Genre" /><br/>
+        <br/>
+      </div>
+
+       <div>
+        <label for="searchTitle">Movie:</label>
+        <input type="text" name="searchTitle" value="@Request.QueryString["searchTitle"]" />
+        <input type="submit" value="Search Title" /><br/>
+        <br/>
+      </div>
+
+    </form>
     <div>
       @grid.GetHtml(
 
