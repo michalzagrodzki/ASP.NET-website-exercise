@@ -1,19 +1,24 @@
 ﻿@{
   
+  // Validation of input in forms.
   Validation.RequireField("title", "Please enter the title");
   Validation.RequireField("genre", "Please enter the genre");
   Validation.RequireField("year", "Please enter the year");
   
+  // Variables for storing values from forms.
   var title = "";
   var genre = "";
   var year = "";
 
+  // Function for adding values from forms into database
   if( IsPost && Validation.IsValid() ){
     
+    // Getting values from form.
     title = Request.Form["title"];
     genre = Request.Form["genre"];
     year = Request.Form["year"];
 
+    // Opening database, sending data to database, redirecting to movies page.
     var db = Database.Open("WebPageMovies3");
     var insertCommand = "INSERT INTO Movies (Title, Genre, Year) VALUES(@0, @1, @2)";
     db.Execute(insertCommand, title, genre, year);
