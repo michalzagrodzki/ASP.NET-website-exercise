@@ -1,0 +1,125 @@
+﻿@{
+  
+  // Variables for storing values from forms.
+  var title = "";
+  var genre = "";
+  var year = "";
+  var movieId = "";
+
+  // Function to show values when page is called with certain movieId
+  if( !IsPost ){
+
+    // When page has specific ID, open database, query data from rows into variables and then into form
+    if( !Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt() ){
+      movieId = Request.QueryString["ID"];
+      var db = Database.Open("WebPageMovies3");
+      var dbCommand = "SELECT * FROM Movies WHERE ID = @0";
+      var row = db.QuerySingle(dbCommand, movieId);
+
+      // Check if there is data in database row
+      if( row != null ){
+        title = row.Title;
+        genre = row.Genre;
+        year = row.Year;
+
+      // Show error when there is no data
+      } else {
+        Validation.AddFormError("No movie was found for given ID.");
+      }
+      
+
+    // message when there is no specific ID
+    } else {
+      Validation.AddFormError("No Movie was selected");
+    }
+  }
+
+  // Function to update database with changed data
+  if( IsPost ){
+
+    // Validation of input, then sends data to database
+    Validation.RequireField("title", "Please enter title");
+    Validation.RequireField("genre", "Please enter genre");
+    Validation.RequireField("year", "Please enter year");
+    Validation.RequireField("movieid", "Please enter ID number of movie");
+
+    // Getting values from form
+    title = Request.Form["title"];
+    genre = Request.Form["genre"];
+    year = Request.Form["year"];
+    movieId = Request.Form["movieId"];
+
+    // If validation is succesful open database and update record with data from title, genre, year
+    if( Validation.IsValid() ){
+      var db = Database.Open("WebPageMovies3");
+      var updateCommand = "UPDATE Movies SET Title=@0, Genre=@1, Year=@2 WHERE Id=@3";
+      db.Execute(updateCommand, title, genre, year, movieId);
+      Response.Redirect("~/Movies");
+    }
+
+  }
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Edit Movie</title>
+    <style type="text/css">
+      
+    .field-validation-error{
+      font-weight: bold;
+      color: red;
+    }
+      
+    .validation-summary-errors{
+      border: 1px solid red;
+      font-weight: bold;
+      color: red;
+      margin: 12px;
+    }
+      
+    </style>
+  </head>
+
+  <body>
+    <h1>Edit a Movie</h1>
+    @Html.ValidationSummary()
+
+    <form method="post">
+      <fieldset>
+
+        <legend>Movie Information</legend>
+
+        <p>
+          <label for="title">Title:</label>
+          <input type="text" name="title" value="@title" />
+        </p>
+
+        <p>
+          <label for="genre">Genre:</label>
+          <input type="text" name="genre" value="@genre" />
+        </p>
+
+        <p>
+          <label for="year">Title:</label>
+          <input type="text" name="year" value="@year" />
+        </p>
+
+        <input type="hidden" name="movieid" value="@movieId" />
+
+        <p>
+          <input type="submit" name="buttonSubmit" value="Submit changes" />
+        </p>
+
+      </fieldset>
+    </form>
+    <div>
+      <p>
+        <a href="~/Movies">Go back</a>
+      </p>
+    </div>
+  </body>
+
+</html>
