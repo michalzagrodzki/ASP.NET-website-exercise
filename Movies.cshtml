@@ -6,13 +6,13 @@ var selectCommand = "SELECT * FROM Movies";
 var searchTerm = "";
 
 // Command for searching genre of movie
-if(!Request.QueryString["searchGenre"].IsEmpty() ){
+if( !Request.QueryString["searchGenre"].IsEmpty() ){
   selectCommand = "SELECT * FROM Movies WHERE Genre = @0";
   searchTerm = Request.QueryString["searchGenre"];
 }
 
 // Command for searching title of movie
-if(!Request.QueryString["searchTitle"].IsEmpty() ){
+if( !Request.QueryString["searchTitle"].IsEmpty() ){
   selectCommand = "SELECT * FROM Movies WHERE Title LIKE @0";
   searchTerm = "%" + Request["searchTitle"] + "%";
 }
