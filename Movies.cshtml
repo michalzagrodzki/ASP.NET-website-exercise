@@ -83,7 +83,8 @@ var grid = new WebGrid(source: selectedData, defaultSort: "Genre", rowsPerPage: 
           grid.Column("Title"),
           grid.Column("Genre"),
           grid.Column("Year"),
-          grid.Column(format: @<a href="~/EditMovie?id=@item.ID">edit</a>)
+          grid.Column(format: @<a href="~/EditMovie?id=@item.ID">edit</a>),
+          grid.Column(format: @<a href="~/DeleteMovie?id=@item.ID">delete</a>)
 
         )
  )
