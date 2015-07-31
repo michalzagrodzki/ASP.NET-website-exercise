@@ -1,5 +1,11 @@
 ﻿@{
   
+  // Use layout for template of page
+  Layout = "~/_Layout.cshtml";
+
+  // Name of page
+  Page.Title = "Delete Movie";
+
   // Variables for storing values from forms.
   var title = "";
   var genre = "";
@@ -43,36 +49,28 @@
   }  
 }
 
-<!DOCTYPE html>
+<h2>Delete Movie</h2>
+@Html.ValidationSummary()
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Delete movie</title>
-  </head>
 
-  <body>
-    <h1>Delete Movie</h1>
-    @Html.ValidationSummary()
-    <p><a href="~/Movies">Return to movies list</a></p>
 
-    <form method="post">
-      <fieldset>
+<form method="post">
+  <fieldset>
 
-        <legend>Movie Information</legend>
+    <legend>Movie Information</legend>
 
-        <p> <span>Title:</span> <span>@title</span> </p>
+    <p> <span>Title:</span> <span>@title</span> </p>
 
-        <p> <span>Genre:</span> <span>@genre</span> </p>
+    <p> <span>Genre:</span> <span>@genre</span> </p>
 
-        <p> <span>Year:</span> <span>@year</span> </p>
+    <p> <span>Year:</span> <span>@year</span> </p>
 
-        <input type="hidden" name="movieId" value="@movieId" />
+    <input type="hidden" name="movieId" value="@movieId" />
 
-        <p> <input type="submit" name="buttonDelete" value="Delete Movie" /> </p>
+    <p> <input type="submit" name="buttonDelete" value="Delete Movie" /> </p>
 
-      </fieldset>
-    </form>
-  </body>
+  </fieldset>
+</form>
 
-</html>
+<p><a href="~/Movies">Go Back</a></p>
+

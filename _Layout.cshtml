@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <link href="~/Styles/Movies.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div id="container">
+
+      <div id="header">
+        <h1>Movie Site</h1>
+      </div>
+
+      <div id="main">
+        @RenderBody()
+      </div>
+
+      <div id="footer">
+        &copy @DateTime.Now.Year Movie Site , Website done by Michal Zagrodzki
+      </div>
+
+    </div>
+  </body>
+
+</html>

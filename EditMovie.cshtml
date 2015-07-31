@@ -1,5 +1,11 @@
 ﻿@{
   
+  // Use layout for template of page
+  Layout = "~/_Layout.cshtml";
+
+  // Name of page
+  Page.Title = "Edit Movie";
+
   // Variables for storing values from forms.
   var title = "";
   var genre = "";
@@ -60,66 +66,40 @@
   }
 }
 
-<!DOCTYPE html>
+<h2>Edit a Movie</h2>
+@Html.ValidationSummary()
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Edit Movie</title>
-    <style type="text/css">
-      
-    .field-validation-error{
-      font-weight: bold;
-      color: red;
-    }
-      
-    .validation-summary-errors{
-      border: 1px solid red;
-      font-weight: bold;
-      color: red;
-      margin: 12px;
-    }
-      
-    </style>
-  </head>
+<form method="post">
+  <fieldset>
 
-  <body>
-    <h1>Edit a Movie</h1>
-    @Html.ValidationSummary()
+    <legend>Movie Information</legend>
 
-    <form method="post">
-      <fieldset>
+    <p>
+      <label for="title">Title:</label>
+      <input type="text" name="title" value="@title" />
+    </p>
 
-        <legend>Movie Information</legend>
+    <p>
+      <label for="genre">Genre:</label>
+      <input type="text" name="genre" value="@genre" />
+    </p>
 
-        <p>
-          <label for="title">Title:</label>
-          <input type="text" name="title" value="@title" />
-        </p>
+    <p>
+      <label for="year">Title:</label>
+      <input type="text" name="year" value="@year" />
+    </p>
 
-        <p>
-          <label for="genre">Genre:</label>
-          <input type="text" name="genre" value="@genre" />
-        </p>
+    <input type="hidden" name="movieid" value="@movieId" />
 
-        <p>
-          <label for="year">Title:</label>
-          <input type="text" name="year" value="@year" />
-        </p>
+    <p>
+      <input type="submit" name="buttonSubmit" value="Submit changes" />
+    </p>
 
-        <input type="hidden" name="movieid" value="@movieId" />
+  </fieldset>
+</form>
+<div>
+  <p>
+    <a href="~/Movies">Go back</a>
+  </p>
+</div>
 
-        <p>
-          <input type="submit" name="buttonSubmit" value="Submit changes" />
-        </p>
-
-      </fieldset>
-    </form>
-    <div>
-      <p>
-        <a href="~/Movies">Go back</a>
-      </p>
-    </div>
-  </body>
-
-</html>

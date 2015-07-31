@@ -1,101 +1,75 @@
 ﻿@{
   
-// Variables which setup database
-var db = Database.Open("WebPageMovies3");
-var selectCommand = "SELECT * FROM Movies";
-var searchTerm = "";
+  // Use layout for template of page
+  Layout = "~/_Layout.cshtml";
 
-// Command for searching genre of movie
-if( !Request.QueryString["searchGenre"].IsEmpty() ){
-  selectCommand = "SELECT * FROM Movies WHERE Genre = @0";
-  searchTerm = Request.QueryString["searchGenre"];
-}
+  // Name of page
+  Page.Title = "List Movies";
+  
 
-// Command for searching title of movie
-if( !Request.QueryString["searchTitle"].IsEmpty() ){
-  selectCommand = "SELECT * FROM Movies WHERE Title LIKE @0";
-  searchTerm = "%" + Request["searchTitle"] + "%";
-}
+  // Variables which setup database
+  var db = Database.Open("WebPageMovies3");
+  var selectCommand = "SELECT * FROM Movies";
+  var searchTerm = "";
 
-// Commands for showing data in grid
-var selectedData = db.Query(selectCommand, searchTerm);
-var grid = new WebGrid(source: selectedData, defaultSort: "Genre", rowsPerPage: 4);
+  // Command for searching genre of movie
+  if( !Request.QueryString["searchGenre"].IsEmpty() ){
+    selectCommand = "SELECT * FROM Movies WHERE Genre = @0";
+    searchTerm = Request.QueryString["searchGenre"];
+  }
+
+  // Command for searching title of movie
+  if( !Request.QueryString["searchTitle"].IsEmpty() ){
+    selectCommand = "SELECT * FROM Movies WHERE Title LIKE @0";
+    searchTerm = "%" + Request["searchTitle"] + "%";
+  }
+
+  // Commands for showing data in grid
+  var selectedData = db.Query(selectCommand, searchTerm);
+  var grid = new WebGrid(source: selectedData, defaultSort: "Genre", rowsPerPage: 4);
     
 }
 
-<!DOCTYPE html>
+<h2>Movies</h2>
 
-<html lang="en">
-
-  <head>
-    <meta charset="utf-8" />
-    <title>Movies</title>
-
-    <style type="text/css">
-      .grid {
-        margin: 4px;
-        border-collapse: collapse;
-        width: 600px;
-      }
-      .grid th, grid td {
-        border: 1px solid #C0C0C0;
-        padding: 5px;
-      }
-      .head {
-        background-color: #E8E8E8;
-        font-weight: bold;
-        color: #FFF;
-      }
-      .alt {
-        background-color: #E8E8E8;
-        color: #000;
-      }
-    </style>
-
-  </head>
-
-  <body>
-    <h1>Movies</h1>
-    <form method="get">
-      <div>
-        <label for="searchGenre">Genre:</label>
-        <input type="text" name="searchGenre" value="@Request.QueryString["searchGenre"]" />
-        <input type="submit" value="Search Genre" /><br/>
-        <br/>
-      </div>
-
-       <div>
-        <label for="searchTitle">Movie:</label>
-        <input type="text" name="searchTitle" value="@Request.QueryString["searchTitle"]" />
-        <input type="submit" value="Search Title" /><br/>
-        <br/>
-      </div>
-
-    </form>
-    <div>
-      @grid.GetHtml(
-
-        tableStyle: "grid",
-        headerStyle: "head",
-        alternatingRowStyle: "alt",
-
-        columns: grid.Columns(
-          grid.Column("Title"),
-          grid.Column("Genre"),
-          grid.Column("Year"),
-          grid.Column(format: @<a href="~/EditMovie?id=@item.ID">edit</a>),
-          grid.Column(format: @<a href="~/DeleteMovie?id=@item.ID">delete</a>)
-
-        )
- )
-    </div>
+<form method="get">
+  <div>
+    <label for="searchGenre">Genre:</label>
+    <input type="text" name="searchGenre" value="@Request.QueryString["searchGenre"]" />
+    <input type="submit" value="Search Genre" /><br/>
+    <br/>
+  </div>
 
     <div>
-      <p>
-        <a href="~/AddMovie">Add new movie</a>
-      </p>
-    </div>
-        
-  </body>
+    <label for="searchTitle">Movie:</label>
+    <input type="text" name="searchTitle" value="@Request.QueryString["searchTitle"]" />
+    <input type="submit" value="Search Title" /><br/>
+    <br/>
+  </div>
 
-</html>
+</form>
+
+<div>
+  @grid.GetHtml(
+
+    tableStyle: "grid",
+    headerStyle: "head",
+    alternatingRowStyle: "alt",
+
+    columns: grid.Columns(
+      grid.Column("Title"),
+      grid.Column("Genre"),
+      grid.Column("Year"),
+      grid.Column(format: @<a href="~/EditMovie?id=@item.ID">edit</a>),
+      grid.Column(format: @<a href="~/DeleteMovie?id=@item.ID">delete</a>)
+
+    )
+)
+</div>
+
+<div>
+  <p>
+    <a href="~/AddMovie">Add new movie</a>
+  </p>
+</div>
+
